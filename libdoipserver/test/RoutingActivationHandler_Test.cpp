@@ -62,6 +62,11 @@ TEST_F(RoutingActivationTest, WrongAddressParsing) {
 TEST_F(RoutingActivationTest, UnknownActivationType) {
 	//Set wrong activation type
 	request[10] = 0xFF;
+	uint32_t target_address = 4096 - 10;
+	request[0] = target_address >> 8;
+	request[1] = target_address & 0xFF;
+	request[2] = 3;
+
 	unsigned char result = parseRoutingActivation(request);
 	ASSERT_EQ(result, 0x06);
 }
@@ -70,6 +75,14 @@ TEST_F(RoutingActivationTest, UnknownActivationType) {
 * Checks if a valid routing activation request leads to the correct routing activation code (0x10);
 */
 TEST_F(RoutingActivationTest, ValidRequest) {
+
+	request[10] = 0xFF;
+	uint32_t target_address = 4096 - 10;
+	request[0] = target_address >> 8;
+	request[1] = target_address & 0xFF;
+	request[2] = 0;
+
 	unsigned char result = parseRoutingActivation(request);
+
 	ASSERT_EQ(result, 0x10);
 }
