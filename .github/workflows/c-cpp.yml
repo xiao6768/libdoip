@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: install gtest
+      run:  apt update -y &&  apt-get install libgtest-dev -y
     - name: make
       run: make
     - name: test 
